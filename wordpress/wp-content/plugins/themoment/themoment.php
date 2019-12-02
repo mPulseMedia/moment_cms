@@ -34,8 +34,8 @@ class Themoment
         
         // vseo_meta
         add_action('wp_head', array($this, 'wp_head_action'));
-        add_action('wp_ajax_post_vseo_meta_get', array($this, 'wp_ajax_post_vseo_meta_get_action'));
-        add_action('wp_ajax_post_vseo_meta_set', array($this, 'wp_ajax_post_vseo_meta_set_action'));
+        add_action('wp_ajax_wp_postmeta_playlist_data_get', array($this, 'wp_ajax_wp_postmeta_playlist_data_get_action'));
+        add_action('wp_ajax_wp_postmeta_playlist_data_set', array($this, 'wp_ajax_wp_postmeta_playlist_data_set_action'));
 
         // Check
         add_action('the_post', array($this, 'the_post_action'));
@@ -81,7 +81,7 @@ class Themoment
         require_once(THEMOMENT_PLUGIN_DIR . 'themoment_vseo_meta.php');
     }
     // https://codex.wordpress.org/AJAX_in_Plugins
-    public function wp_ajax_post_vseo_meta_set_action()
+    public function wp_ajax_wp_postmeta_playlist_data_set_action()
     {
         $veso_meta = $_POST['vseo_meta'];
         $post_id = $_POST['post_id'];
@@ -91,7 +91,7 @@ class Themoment
             update_post_meta($post_id, 'vseo_meta', $veso_meta);
         }
     }
-    public function wp_ajax_post_vseo_meta_get_action()
+    public function wp_ajax_wp_postmeta_playlist_data_get_action()
     {
         $post_id = $_POST['post_id'];
         return get_post_meta($post_id, 'vseo_meta');
