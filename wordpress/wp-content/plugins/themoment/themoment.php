@@ -22,25 +22,27 @@ class Themoment
 
     public function __construct()
     {
+        // Hooks
+
         // Script
-        add_action('admin_enqueue_scripts', array($this, 'admin_script_enqueue'));
-        add_action('wp_enqueue_scripts', array($this, 'frontend_script_enqueue'));
-        add_action('admin_print_scripts', array($this, 'admin_script_localize'));
+        add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts_action'));
+        add_action('wp_enqueue_scripts', array($this, 'wp_enqueue_scripts_action'));
+        add_action('admin_print_scripts', array($this, 'admin_print_scripts_action'));
 
         // Admin Dashboard
-        add_action('admin_menu', array($this, 'admin_dashboard_menu_add'));
+        add_action('admin_menu', array($this, 'admin_menu_action'));
         
         // vseo_meta
-        add_action('wp_head', array($this, 'post_vseo_meta_render'));
-        add_action('wp_ajax_post_vseo_meta_get', array($this, 'post_vseo_meta_get'));
-        add_action('wp_ajax_post_vseo_meta_set', array($this, 'post_vseo_meta_set'));
+        add_action('wp_head', array($this, 'wp_head_action'));
+        add_action('wp_ajax_post_vseo_meta_get', array($this, 'wp_ajax_post_vseo_meta_get_action'));
+        add_action('wp_ajax_post_vseo_meta_set', array($this, 'wp_ajax_post_vseo_meta_set_action'));
 
         // Check
-        add_action('the_post', array($this, 'post_update_check'));
-        add_action('save_post', array($this, 'post_update_check'));
+        add_action('the_post', array($this, 'the_post_action'));
+        add_action('save_post', array($this, 'the_post_action'));
     }
 
-    function admin_dashboard_menu_add()
+    function admin_menu_action()
     {
         add_options_page(__('theMoment', 'textdomain'), __('theMoment', 'textdomain'), 'manage_options', 'options_page_slug', array($this, 'admin_dashboard_page_render'));
     }
@@ -50,33 +52,36 @@ class Themoment
     }
     
 
-    public function admin_script_enqueue($hook)
+    public function admin_enqueue_scripts_action($hook)
     {
         if ('post.php' != $hook) {
             //return;
         }
+        // ovrlay_script_admin_attach
         wp_enqueue_script('themoment_script', 'http://localhost/moment_project/moment_app/output/ext/themoment.js', array(), '2.0');
     }
-    public function frontend_script_enqueue()
+    public function wp_enqueue_scripts_action()
     {
+        // ovrlay_script_frontend_attach
         wp_enqueue_script('themoment_script', 'http://localhost/moment_project/moment_app/output/ext/themoment.js', array(), '2.0');
     }
-    public function admin_script_localize()
+    public function admin_print_scripts_action()
     {
         $wordpress_object = array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'post_id' => $this->post_id_get(),
             'post_url' => $this->post_url_get()
         );
+        // ovrlay_script_admin_localize
         wp_localize_script('themoment_script', 'Wordpress_Object', $wordpress_object);
     }
     
-    public function post_vseo_meta_render()
+    public function wp_head_action()
     {
         require_once(THEMOMENT_PLUGIN_DIR . 'themoment_vseo_meta.php');
     }
     // https://codex.wordpress.org/AJAX_in_Plugins
-    public function post_vseo_meta_set()
+    public function wp_ajax_post_vseo_meta_set_action()
     {
         $veso_meta = $_POST['vseo_meta'];
         $post_id = $_POST['post_id'];
@@ -86,14 +91,14 @@ class Themoment
             update_post_meta($post_id, 'vseo_meta', $veso_meta);
         }
     }
-    public function post_vseo_meta_get()
+    public function wp_ajax_post_vseo_meta_get_action()
     {
         $post_id = $_POST['post_id'];
         return get_post_meta($post_id, 'vseo_meta');
     }
 
     // https://stackoverflow.com/questions/8463126/how-to-get-post-id-in-wordpress-admin
-    public function post_update_check()
+    public function the_post_action()
     {
         global $post;
         if ($post) {
