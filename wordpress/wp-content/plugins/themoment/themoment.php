@@ -83,12 +83,12 @@ class Themoment
     // https://codex.wordpress.org/AJAX_in_Plugins
     public function wp_ajax_wp_postmeta_playlist_data_set_action()
     {
-        $veso_meta = $_POST['vseo_meta'];
+        $vseo_meta = $_POST['vseo_meta'];
         $post_id = $_POST['post_id'];
         if (!get_post_meta($post_id, 'vseo_meta')) {
-            add_post_meta($post_id, 'vseo_meta', $veso_meta);
+            add_post_meta($post_id, 'vseo_meta', $vseo_meta);
         } else {
-            update_post_meta($post_id, 'vseo_meta', $veso_meta);
+            update_post_meta($post_id, 'vseo_meta', $vseo_meta);
         }
     }
     public function wp_ajax_wp_postmeta_playlist_data_get_action()
