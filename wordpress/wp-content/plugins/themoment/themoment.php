@@ -32,7 +32,7 @@ class Themoment
         // Admin Dashboard
         add_action('admin_menu', array($this, 'admin_menu_action'));
         
-        // vseo_meta
+        // metadata_vseo
         add_action('wp_head', array($this, 'wp_head_action'));
         add_action('wp_ajax_wp_postmeta_playlist_data_get', array($this, 'wp_ajax_wp_postmeta_playlist_data_get_action'));
         add_action('wp_ajax_wp_postmeta_playlist_data_set', array($this, 'wp_ajax_wp_postmeta_playlist_data_set_action'));
@@ -78,23 +78,23 @@ class Themoment
     
     public function wp_head_action()
     {
-        require_once(THEMOMENT_PLUGIN_DIR . 'themoment_vseo_meta.php');
+        require_once(THEMOMENT_PLUGIN_DIR . 'themoment_metadata_vseo.php');
     }
     // https://codex.wordpress.org/AJAX_in_Plugins
     public function wp_ajax_wp_postmeta_playlist_data_set_action()
     {
-        $vseo_meta = $_POST['vseo_meta'];
+        $playlist_data = $_POST['playlist_data'];
         $post_id = $_POST['post_id'];
-        if (!get_post_meta($post_id, 'vseo_meta')) {
-            add_post_meta($post_id, 'vseo_meta', $vseo_meta);
+        if (!get_post_meta($post_id, 'playlist_data')) {
+            add_post_meta($post_id, 'playlist_data', $playlist_data);
         } else {
-            update_post_meta($post_id, 'vseo_meta', $vseo_meta);
+            update_post_meta($post_id, 'playlist_data', $playlist_data);
         }
     }
     public function wp_ajax_wp_postmeta_playlist_data_get_action()
     {
         $post_id = $_POST['post_id'];
-        return get_post_meta($post_id, 'vseo_meta');
+        return get_post_meta($post_id, 'playlist_data');
     }
 
     // https://stackoverflow.com/questions/8463126/how-to-get-post-id-in-wordpress-admin

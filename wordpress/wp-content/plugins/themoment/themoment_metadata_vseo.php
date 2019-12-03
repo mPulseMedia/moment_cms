@@ -4,16 +4,16 @@ if (is_page() || is_single()) {
         global $post;
         $post_id = $post->ID;
         $post_url = get_permalink($post_id);
-        $post_vseo_meta = get_post_meta($post_id, 'vseo_meta');
-        foreach ($post_vseo_meta as $meta) {
+        $post_playlist_data = get_post_meta($post_id, 'playlist_data');
+        foreach ($post_playlist_data as $playlist_data) {
             try {
-                $meta = json_decode($meta, true);
-                $playlist_id = $meta['playlist_id'];
-                $playlist_title = $meta['playlist_title'];
-                if (isset($meta['clips'])) {
+                $playlist_data = json_decode($playlist_data, true);
+                $playlist_id = $playlist_data['playlist_id'];
+                $playlist_title = $playlist_data['playlist_title'];
+                if (isset($playlist_data['clips'])) {
                     $clip_meta_all = array();
                     $thumbnails = array();
-                    foreach ($meta['clips'] as $clip) {
+                    foreach ($playlist_data['clips'] as $clip) {
                         $thumbnails[] = $clip['moment_thumb'];
                         $clip_meta_all[] = array(
                             "@type" => "Clip",
@@ -26,7 +26,7 @@ if (is_page() || is_single()) {
                     $clip_meta_all = json_encode($clip_meta_all);
                     $thumbnails = json_encode($thumbnails);
 
-                    $translated_post_vseo_meta = sprintf(
+                    $metadata_vseo = sprintf(
                         '<script type="application/ld+json">
                             {
                                 "@context": "http://schema.org/",
@@ -42,7 +42,7 @@ if (is_page() || is_single()) {
                         $post_url,
                         $clip_meta_all
                     );
-                    echo $translated_post_vseo_meta;
+                    echo $metadata_vseo;
                 }
             } catch (Exception $e) { }
         }
