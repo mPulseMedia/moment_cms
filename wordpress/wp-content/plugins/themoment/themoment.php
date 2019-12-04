@@ -1,10 +1,10 @@
 <?php
 /*
-    Plugin name: theMoment
-    Plugin URI: https://themoment.tv?noredir=1
-    Description: Save, share and discover links to the best moments in video. One simple button to tag the scenes you like — while you watch. No downloads. No editing. No copyright violation. Just links to the scenes you tag in the original video.
-    Author: StreamEditor
-    Author URI: https://streameditor.tv
+    Plugin name: theMoment.tv
+    Plugin URI: https://themoment.tv
+    Description: Save, share and discover links to the best moments in video.
+    Author: theMoment.tv
+    Author URI: https://theMoment.tv
     Version: 0.1
 */
 defined('ABSPATH') or die('No script kiddies please!');
