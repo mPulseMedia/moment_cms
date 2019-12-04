@@ -70,7 +70,8 @@ class Themoment
         $wordpress_object = array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'post_id' => $this->post_id_get(),
-            'post_url' => $this->post_url_get()
+            'post_url' => $this->post_url_get(),
+            'playlist_data' => get_post_meta($this->post_id_get())
         );
         // ovrlay_script_admin_localize
         wp_localize_script('themoment_script', 'Wordpress_Object', $wordpress_object);
