@@ -58,12 +58,12 @@ class Themoment
             //return;
         }
         // ovrlay_script_admin_attach
-        wp_enqueue_script('themoment_script', 'https://app-dev.themoment.tv/output/ext/themoment.js', array(), '2.0');
+        wp_enqueue_script('themoment_script', 'https://app-dev.themoment.tv/ext/themoment.js', array(), '2.0');
     }
     public function wp_enqueue_scripts_action()
     {
         // ovrlay_script_frontend_attach
-        wp_enqueue_script('themoment_script', 'https://app-dev.themoment.tv/output/ext/themoment.js', array(), '2.0');
+        wp_enqueue_script('themoment_script', 'https://app-dev.themoment.tv/ext/themoment.js', array(), '2.0');
     }
     public function admin_print_scripts_action()
     {
