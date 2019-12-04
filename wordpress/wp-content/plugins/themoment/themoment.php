@@ -31,7 +31,7 @@ class Themoment
 
         // Admin Dashboard
         add_action('admin_menu', array($this, 'admin_menu_action'));
-        
+
         // metadata_vseo
         add_action('wp_head', array($this, 'wp_head_action'));
         add_action('wp_ajax_wp_postmeta_playlist_data_get', array($this, 'wp_ajax_wp_postmeta_playlist_data_get_action'));
@@ -50,7 +50,7 @@ class Themoment
     {
         require_once(THEMOMENT_PLUGIN_DIR . 'themoment_admin_dashboard.php');
     }
-    
+
 
     public function admin_enqueue_scripts_action($hook)
     {
@@ -58,12 +58,12 @@ class Themoment
             //return;
         }
         // ovrlay_script_admin_attach
-        wp_enqueue_script('themoment_script', 'http://localhost/moment_project/moment_app/output/ext/themoment.js', array(), '2.0');
+        wp_enqueue_script('themoment_script', 'https://app-dev.themoment.tv/output/ext/themoment.js', array(), '2.0');
     }
     public function wp_enqueue_scripts_action()
     {
         // ovrlay_script_frontend_attach
-        wp_enqueue_script('themoment_script', 'http://localhost/moment_project/moment_app/output/ext/themoment.js', array(), '2.0');
+        wp_enqueue_script('themoment_script', 'https://app-dev.themoment.tv/output/ext/themoment.js', array(), '2.0');
     }
     public function admin_print_scripts_action()
     {
@@ -76,7 +76,7 @@ class Themoment
         // ovrlay_script_admin_localize
         wp_localize_script('themoment_script', 'Wordpress_Object', $wordpress_object);
     }
-    
+
     public function wp_head_action()
     {
         require_once(THEMOMENT_PLUGIN_DIR . 'themoment_metadata_vseo.php');
