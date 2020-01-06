@@ -5,6 +5,7 @@ if (is_page() || is_single()) {
         $post_id = $post->ID;
         $post_url = get_permalink($post_id);
         $post_playlist_data = get_post_meta($post_id, 'playlist_data');
+        $upload_date = date("c");
         foreach ($post_playlist_data as $playlist_data) {
             try {
                 $playlist_data = json_decode($playlist_data, true);
@@ -34,12 +35,14 @@ if (is_page() || is_single()) {
                                 "name": "%s",
                                 "thumbnailUrl": %s,
                                 "contentUrl": "%s",
+                                "uploadDate": "%s",
                                 "hasPart": %s
                             }
                         </script>',
                         $playlist_title,
                         $thumbnails,
                         $post_url,
+                        $upload_date,
                         $clip_meta_all
                     );
                     echo $metadata_vseo;
