@@ -33,12 +33,14 @@ if (is_page() || is_single()) {
                                 "@context": "http://schema.org/",
                                 "@type": "VideoObject",
                                 "name": "%s",
+                                "description": "%s",
                                 "thumbnailUrl": %s,
                                 "contentUrl": "%s",
                                 "uploadDate": "%s",
                                 "hasPart": %s
                             }
                         </script>',
+                        $playlist_title,
                         $playlist_title,
                         $thumbnails,
                         $post_url,
