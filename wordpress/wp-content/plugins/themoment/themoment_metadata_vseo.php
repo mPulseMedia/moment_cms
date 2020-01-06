@@ -31,9 +31,9 @@ if (is_page() || is_single()) {
                             {
                                 "@context": "http://schema.org/",
                                 "@type": "VideoObject",
-                                "name": %s,
+                                "name": "%s",
                                 "thumbnailUrl": %s,
-                                "contentUrl": %s,
+                                "contentUrl": "%s",
                                 "hasPart": %s
                             }
                         </script>',
