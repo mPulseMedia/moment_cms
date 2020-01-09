@@ -58,12 +58,14 @@ class Themoment
             //return;
         }
         // ovrlay_script_admin_attach
-        wp_enqueue_script('themoment_script', 'https://app-dev.themoment.tv/ext/themoment.js', array(), '2.0');
+        require_once(THEMOMENT_PLUGIN_DIR . 'themoment_script.php');
+        wp_enqueue_script('themoment_script', $themoment_script, array(), '2.0');
     }
     public function wp_enqueue_scripts_action()
     {
         // ovrlay_script_frontend_attach
-        wp_enqueue_script('themoment_script', 'https://app-dev.themoment.tv/ext/themoment.js', array(), '2.0');
+        require_once(THEMOMENT_PLUGIN_DIR . 'themoment_script.php');
+        wp_enqueue_script('themoment_script', $themoment_script, array(), '2.0');
     }
     public function admin_print_scripts_action()
     {
@@ -103,6 +105,10 @@ class Themoment
     {
         global $post;
         if ($post) {
+            // Post meta duplicate bug fix
+            if (wp_is_post_revision($post)) {
+                $post = get_post($post->post_parent);
+            }
             $this->post_id_set($post->ID);
             $this->post_url_set(get_permalink($post));
         }
