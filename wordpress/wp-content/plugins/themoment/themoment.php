@@ -73,6 +73,7 @@ class Themoment
             'ajaxurl' => admin_url('admin-ajax.php'),
             'post_id' => $this->post_id_get(),
             'post_url' => $this->post_url_get(),
+            'is_admin' => is_admin() ? 'yes' : 'no',
             'playlist_data' => get_post_meta($this->post_id_get(), 'playlist_data')
         );
         // ovrlay_script_admin_localize
