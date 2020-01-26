@@ -22,6 +22,7 @@ class Themoment
 
     public function __construct()
     {
+        $plugin = plugin_basename(__FILE__);
         // Hooks
 
         // Script
@@ -43,6 +44,13 @@ class Themoment
         add_action('save_post', array($this, 'the_post_action'));
 
         add_filter('the_content', array($this, 'add_player_anchor'));
+        add_filter("plugin_action_links_$plugin", array($this, 'add_settings_link'));
+    }
+    function add_settings_link($links)
+    {
+        $settings_link = '<a href="options-general.php?page=themoment_page_slug">' . __('Settings') . '</a>';
+        array_push($links, $settings_link);
+        return $links;
     }
     function add_player_anchor($content)
     {
@@ -53,7 +61,7 @@ class Themoment
 
     function admin_menu_action()
     {
-        add_options_page(__('theMoment', 'textdomain'), __('theMoment', 'textdomain'), 'manage_options', 'options_page_slug', array($this, 'admin_dashboard_page_render'));
+        add_options_page(__('theMoment', 'textdomain'), __('theMoment', 'textdomain'), 'manage_options', 'themoment_page_slug', array($this, 'admin_dashboard_page_render'));
     }
     function admin_dashboard_page_render()
     {
