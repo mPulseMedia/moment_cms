@@ -28,6 +28,7 @@ class Themoment
         add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts_action'));
         add_action('wp_enqueue_scripts', array($this, 'wp_enqueue_scripts_action'));
         add_action('admin_print_scripts', array($this, 'admin_print_scripts_action'));
+        add_action('wp_print_scripts', array($this, 'wp_print_scripts_action'));
 
         // Admin Dashboard
         add_action('admin_menu', array($this, 'admin_menu_action'));
@@ -40,6 +41,14 @@ class Themoment
         // Check
         add_action('the_post', array($this, 'the_post_action'));
         add_action('save_post', array($this, 'the_post_action'));
+
+        add_filter('the_content', array($this, 'add_player_anchor'));
+    }
+    function add_player_anchor($content)
+    {
+        if (is_single()) {
+            return $content = "<div id='anchor-" . get_the_ID() . "'></div>" . $content;
+        }
     }
 
     function admin_menu_action()
@@ -78,6 +87,16 @@ class Themoment
         );
         // ovrlay_script_admin_localize
         wp_localize_script('themoment_script', 'Wordpress_Object', $wordpress_object);
+    }
+    public function wp_print_scripts_action()
+    {
+        if (is_single()) {
+            $wordpress_object = array(
+                'post_id' => get_the_ID(),
+                'post_url' => get_permalink()
+            );
+            wp_localize_script('themoment_script', 'Wordpress_Object', $wordpress_object);
+        }
     }
 
     public function wp_head_action()
