@@ -1,1 +1,1 @@
-<div class="themoment_embedded" data-ovr_mode="ovrdir"></div>
+<iframe src="https://streameditor.tv/use_case_vseo.php" width="100%" style="position: absolute; top: 0px; left: 0px; height: 100%;"></iframe>
