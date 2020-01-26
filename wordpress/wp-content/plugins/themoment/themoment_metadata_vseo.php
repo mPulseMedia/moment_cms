@@ -1,6 +1,7 @@
 <?php
 if (is_page() || is_single()) {
-    function metadata_veso_populate() {
+    function metadata_veso_populate()
+    {
         global $post;
         $post_id = $post->ID;
         $post_url = get_permalink($post_id);
@@ -21,7 +22,7 @@ if (is_page() || is_single()) {
                             "name" => $clip['moment_tag'],
                             "startOffset" => $clip['moment_time_start'],
                             "endOffset" => $clip['moment_time_end'],
-                            "url" => $clip['moment_cust_url'] . (strpos($clip['moment_cust_url'], '?') > 0 ? '&' : '?') . 'playlist=' . $playlist_id . '&moment=' . $clip['moment_id']
+                            "url" => url_update($clip['moment_cust_url'], array('playlist' => $playlist_id, 'moment' => $clip['moment_id']), 'anchor-' . $post_id)
                         );
                     }
                     $clip_meta_all = json_encode($clip_meta_all);
@@ -49,8 +50,13 @@ if (is_page() || is_single()) {
                     );
                     echo $metadata_vseo;
                 }
-            } catch (Exception $e) { }
+            } catch (Exception $e) {
+            }
         }
+    }
+    function url_update($url = '', $params = array(), $hash = '')
+    {
+        return $url . (strpos($url, '?') > 0 ? '&' : '?') . http_build_query($params) . (strlen($hash) > 0 ? ('#' . $hash) : '');
     }
     metadata_veso_populate();
 }
