@@ -55,7 +55,9 @@ class Themoment
     function add_player_anchor($content)
     {
         if (is_single()) {
-            return $content = "<div id='anchor-" . get_the_ID() . "'></div>" . $content;
+            $content_pre = substr($content, 0, strpos($content, '<iframe'));
+            $content_post = substr($content, strpos($content, '<iframe'));
+            return $content_pre . "<div id='anchor-" . get_the_ID() . "'></div>" . $content_post;
         }
     }
 
