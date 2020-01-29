@@ -101,7 +101,7 @@ class Themoment
     }
     public function wp_print_scripts_action()
     {
-        if (is_single()) {
+        if (is_singular()) {
             $wordpress_object = array(
                 'post_id' => get_the_ID(),
                 'post_url' => get_permalink()
@@ -132,9 +132,8 @@ class Themoment
     }
 
     // https://stackoverflow.com/questions/8463126/how-to-get-post-id-in-wordpress-admin
-    public function the_post_action()
+    public function the_post_action($post)
     {
-        global $post;
         if ($post) {
             // Post meta duplicate bug fix
             if (wp_is_post_revision($post)) {
