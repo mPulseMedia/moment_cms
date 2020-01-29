@@ -1,9 +1,8 @@
 <?php
-if (is_page() || is_single()) {
+if (is_singular()) {
     function metadata_veso_populate()
     {
-        global $post;
-        $post_id = $post->ID;
+        $post_id = get_queried_object_id();
         $post_url = get_permalink($post_id);
         $post_playlist_data = get_post_meta($post_id, 'playlist_data');
         $upload_date = date("c");
