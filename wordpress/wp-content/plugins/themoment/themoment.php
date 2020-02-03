@@ -109,7 +109,7 @@ class Themoment
             if ($this->is_bakery() || $this->is_elementor()) {
                 $wordpress_object = array_merge($wordpress_object, array(
                     'ajaxurl' => admin_url('admin-ajax.php'),
-                    'is_admin' => is_admin() ? 'yes' : 'no',
+                    'is_admin' => 'yes',
                     'playlist_data' => get_post_meta(get_the_ID(), 'playlist_data')
                 ));
             }
