@@ -106,8 +106,19 @@ class Themoment
                 'post_id' => get_the_ID(),
                 'post_url' => get_permalink()
             );
+            if ($this->is_bakery()) {
+                $wordpress_object = array_merge($wordpress_object, array(
+                    'ajaxurl' => admin_url('admin-ajax.php'),
+                    'is_admin' => is_admin() ? 'yes' : 'no',
+                    'playlist_data' => get_post_meta(get_the_ID(), 'playlist_data')
+                ));
+            }
             wp_localize_script('themoment_script', 'Wordpress_Object', $wordpress_object);
         }
+    }
+    public function is_bakery()
+    {
+        return strpos($_SERVER['REQUEST_URI'], 'vc_editable=true') !== false;
     }
 
     public function wp_head_action()
