@@ -106,7 +106,7 @@ class Themoment
                 'post_id' => get_the_ID(),
                 'post_url' => get_permalink()
             );
-            if ($this->is_bakery()) {
+            if ($this->is_bakery() || $this->is_elementor()) {
                 $wordpress_object = array_merge($wordpress_object, array(
                     'ajaxurl' => admin_url('admin-ajax.php'),
                     'is_admin' => is_admin() ? 'yes' : 'no',
@@ -119,6 +119,10 @@ class Themoment
     public function is_bakery()
     {
         return strpos($_SERVER['REQUEST_URI'], 'vc_editable=true') !== false;
+    }
+    public function is_elementor()
+    {
+        return strpos($_SERVER['REQUEST_URI'], 'elementor-preview=') !== false;
     }
 
     public function wp_head_action()
