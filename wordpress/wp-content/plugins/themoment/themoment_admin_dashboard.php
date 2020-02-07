@@ -30,4 +30,4 @@
         }
     }
 </style>
-<iframe class="themoment_iframe" src="https://streameditor.tv/use_case_vseo.php"></iframe>
+<iframe class="themoment_iframe" src="https://streameditor.tv/support_wordpress_settings.php"></iframe>
