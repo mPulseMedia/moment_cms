@@ -59,3 +59,12 @@ if (is_singular()) {
     }
     metadata_veso_populate();
 }
+?>
+<style type="text/css">
+    iframe[src*="youtube.com"]:not([src*="enablejsapi=1"]) {
+        opacity: 0;
+    }
+    iframe[src*="youtube.com"][src*="enablejsapi=1"] {
+        opacity: 1;
+    }
+</style>
