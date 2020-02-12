@@ -25,6 +25,9 @@ class Themoment
         $plugin = plugin_basename(__FILE__);
         // Hooks
 
+        // Activation
+        add_action('activated_plugin', array($this, 'activated_plugin_action'));
+
         // Script
         add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts_action'));
         add_action('wp_enqueue_scripts', array($this, 'wp_enqueue_scripts_action'));
@@ -46,6 +49,13 @@ class Themoment
         add_filter('the_content', array($this, 'add_player_anchor'));
         add_filter("plugin_action_links_$plugin", array($this, 'add_settings_link'));
     }
+    function activated_plugin_action($plugin)
+    {
+        if ($plugin == plugin_basename(__FILE__)) {
+            exit(wp_redirect(admin_url('options-general.php?page=themoment_page_slug')));
+        }
+    }
+
     function add_settings_link($links)
     {
         $settings_link = '<a href="options-general.php?page=themoment_page_slug">' . __('Settings') . '</a>';
@@ -65,6 +75,7 @@ class Themoment
     function admin_menu_action()
     {
         add_options_page(__('theMoment', 'textdomain'), __('theMoment', 'textdomain'), 'manage_options', 'themoment_page_slug', array($this, 'admin_dashboard_page_render'));
+        add_menu_page(__('theMoment', 'textdomain'), __('theMoment', 'textdomain'), 'manage_options', 'themoment_page_slug', array($this, 'admin_dashboard_page_render'));
     }
     function admin_dashboard_page_render()
     {
