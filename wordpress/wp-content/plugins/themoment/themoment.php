@@ -75,7 +75,7 @@ class Themoment
     function admin_menu_action()
     {
         add_options_page(__('theMoment', 'textdomain'), __('theMoment', 'textdomain'), 'manage_options', 'themoment_page_slug', array($this, 'admin_dashboard_page_render'));
-        add_menu_page(__('theMoment', 'textdomain'), __('theMoment', 'textdomain'), 'manage_options', 'themoment_page_slug', array($this, 'admin_dashboard_page_render'), 'https://themoment-s3-bucket.s3-us-west-2.amazonaws.com/app/app_logo_white_20x20.svg');
+        add_menu_page(__('theMoment', 'textdomain'), __('theMoment', 'textdomain'), 'manage_options', 'themoment_page_slug', array($this, 'admin_dashboard_page_render'), 'https://themoment-s3-bucket.s3-us-west-2.amazonaws.com/app/app_logo_white_20x20.png');
     }
     function admin_dashboard_page_render()
     {
