@@ -26,7 +26,8 @@ class Themoment
         // Hooks
 
         // Activation
-        add_action('activated_plugin', array($this, 'activated_plugin_action'));
+        register_activation_hook(__FILE__, array($this, 'register_activation_hook_action'));
+        add_action('admin_init', array($this, 'admin_init_action'));
 
         // Script
         add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts_action'));
@@ -49,6 +50,21 @@ class Themoment
         add_filter('the_content', array($this, 'add_player_anchor'));
         add_filter("plugin_action_links_$plugin", array($this, 'add_settings_link'));
     }
+    function register_activation_hook_action()
+    {
+        if (!is_network_admin()) {
+            set_transient('_themoment_welcome_redirect', 1, 30);
+        }
+    }
+    function admin_init_action()
+    {
+        $redirect = get_transient('_themoment_welcome_redirect');
+        delete_transient('_themoment_welcome_redirect');
+        if ($redirect) {
+            wp_safe_redirect(admin_url('admin.php?page=themoment_page_slug'));
+        }
+    }
+
     function activated_plugin_action($plugin)
     {
         if ($plugin == plugin_basename(__FILE__)) {
@@ -74,7 +90,7 @@ class Themoment
 
     function admin_menu_action()
     {
-        add_options_page(__('theMoment', 'textdomain'), __('theMoment', 'textdomain'), 'manage_options', 'themoment_page_slug', array($this, 'admin_dashboard_page_render'));
+        //add_options_page(__('theMoment', 'textdomain'), __('theMoment', 'textdomain'), 'manage_options', 'themoment_page_slug', array($this, 'admin_dashboard_page_render'));
         add_menu_page(__('theMoment', 'textdomain'), __('theMoment', 'textdomain'), 'manage_options', 'themoment_page_slug', array($this, 'admin_dashboard_page_render'), 'https://themoment-s3-bucket.s3-us-west-2.amazonaws.com/app/app_logo_white_20x20.png');
     }
     function admin_dashboard_page_render()
