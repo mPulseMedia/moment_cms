@@ -14,6 +14,7 @@ if (!function_exists('add_action')) {
 }
 
 define('THEMOMENT_PLUGIN_DIR', plugin_dir_path(__FILE__));
+require_once(THEMOMENT_PLUGIN_DIR . 'themoment_model.php');
 
 class Themoment
 {

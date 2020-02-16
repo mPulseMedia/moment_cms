@@ -4,31 +4,35 @@ if (is_singular()) {
     {
         $post_id = get_queried_object_id();
         $post_url = get_permalink($post_id);
-        $post_playlist_data = get_post_meta($post_id, 'playlist_data');
+
+        $wp_db_data = get_post_meta($post_id, 'playlist_data');
         $upload_date = date("c");
-        foreach ($post_playlist_data as $playlist_data) {
+        foreach ($wp_db_data as $playlist_data) {
             try {
                 $playlist_data = json_decode($playlist_data, true);
                 $playlist_id = $playlist_data['playlist_id'];
-                $playlist_title = $playlist_data['playlist_title'];
-                if (isset($playlist_data['clips'])) {
-                    $clip_meta_all = array();
-                    $thumbnails = array();
-                    foreach ($playlist_data['clips'] as $clip) {
-                        $thumbnails[] = $clip['moment_thumb'];
-                        $clip_meta_all[] = array(
-                            "@type" => "Clip",
-                            "name" => $clip['moment_tag'],
-                            "startOffset" => $clip['moment_time_start'],
-                            "endOffset" => $clip['moment_time_end'],
-                            "url" => url_update($clip['moment_cust_url'], array('playlist' => $playlist_id, 'moment' => $clip['moment_id']), 'anchor-' . $post_id)
-                        );
-                    }
-                    $clip_meta_all = json_encode($clip_meta_all);
-                    $thumbnails = json_encode($thumbnails);
 
-                    $metadata_vseo = sprintf(
-                        '<script type="application/ld+json">
+                $playlist_object = playlist_object_get($playlist_id);
+                $playlist_title = playlist_object_title_get($playlist_object);
+                $moment_objects = playlist_object_moment_object_array_get($playlist_object);
+                
+                $clip_meta_all = array();
+                $thumbnails = array();
+                foreach ($moment_objects as $clip) {
+                    $thumbnails[] = $clip['moment_thumb'];
+                    $clip_meta_all[] = array(
+                        "@type" => "Clip",
+                        "name" => $clip['tag'],
+                        "startOffset" => $clip['time_start'],
+                        "endOffset" => $clip['time_end'],
+                        "url" => url_update($clip['moment_cust_url'], array('playlist' => $playlist_id, 'moment' => $clip['id']), 'anchor-' . $post_id)
+                    );
+                }
+                $clip_meta_all = json_encode($clip_meta_all);
+                $thumbnails = json_encode($thumbnails);
+
+                $metadata_vseo = sprintf(
+                    '<script type="application/ld+json">
                             {
                                 "@context": "http://schema.org/",
                                 "@type": "VideoObject",
@@ -40,15 +44,14 @@ if (is_singular()) {
                                 "hasPart": %s
                             }
                         </script>',
-                        $playlist_title,
-                        $playlist_title,
-                        $thumbnails,
-                        $post_url,
-                        $upload_date,
-                        $clip_meta_all
-                    );
-                    echo $metadata_vseo;
-                }
+                    $playlist_title,
+                    $playlist_title,
+                    $thumbnails,
+                    $post_url,
+                    $upload_date,
+                    $clip_meta_all
+                );
+                echo $metadata_vseo;
             } catch (Exception $e) {
             }
         }
