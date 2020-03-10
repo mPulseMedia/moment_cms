@@ -14,6 +14,7 @@ if (!function_exists('add_action')) {
 }
 
 define('THEMOMENT_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('THEMOMENT_PLUGIN_CSS', plugins_url('assets/css/style.css', __FILE__));
 require_once(THEMOMENT_PLUGIN_DIR . 'themoment_model.php');
 
 class Themoment
@@ -62,20 +63,13 @@ class Themoment
         $redirect = get_transient('_themoment_welcome_redirect');
         delete_transient('_themoment_welcome_redirect');
         if ($redirect) {
-            wp_safe_redirect(admin_url('admin.php?page=themoment_page_slug'));
-        }
-    }
-
-    function activated_plugin_action($plugin)
-    {
-        if ($plugin == plugin_basename(__FILE__)) {
-            exit(wp_redirect(admin_url('options-general.php?page=themoment_page_slug')));
+            wp_safe_redirect(admin_url('admin.php?page=themoment_page_support_slug'));
         }
     }
 
     function add_settings_link($links)
     {
-        $settings_link = '<a href="options-general.php?page=themoment_page_slug">' . __('Settings') . '</a>';
+        $settings_link = '<a href="admin.php?page=themoment_page_support_slug">' . __('Settings') . '</a>';
         array_push($links, $settings_link);
         return $links;
     }
@@ -91,12 +85,37 @@ class Themoment
 
     function admin_menu_action()
     {
-        //add_options_page(__('theMoment', 'textdomain'), __('theMoment', 'textdomain'), 'manage_options', 'themoment_page_slug', array($this, 'admin_dashboard_page_render'));
-        add_menu_page(__('theMoment', 'textdomain'), __('theMoment', 'textdomain'), 'manage_options', 'themoment_page_slug', array($this, 'admin_dashboard_page_render'), 'https://themoment-s3-bucket.s3-us-west-2.amazonaws.com/app/app_logo_white_20x20.png');
+        add_menu_page(
+            __('theMoment', 'textdomain'),
+            __('theMoment', 'textdomain'),
+            'manage_options',
+            'themoment_page_history_slug',
+            array($this, 'themoment_page_history_render'),
+            'https://themoment-s3-bucket.s3-us-west-2.amazonaws.com/app/app_logo_white_20x20.png'
+        );
+        add_submenu_page(
+            'themoment_page_history_slug',
+            __('My Highlights', 'textdomain'),
+            __('My Highlights', 'textdomain'),
+            'manage_options',
+            'themoment_page_history_slug',
+        );
+        add_submenu_page(
+            'themoment_page_history_slug',
+            __('Support', 'textdomain'),
+            __('Support', 'textdomain'),
+            'manage_options',
+            'themoment_page_support_slug',
+            array($this, 'themoment_page_support_render'),
+        );
     }
-    function admin_dashboard_page_render()
+    function themoment_page_history_render()
     {
-        require_once(THEMOMENT_PLUGIN_DIR . 'themoment_admin_dashboard.php');
+        require_once(THEMOMENT_PLUGIN_DIR . 'themoment_page_history.php');
+    }
+    function themoment_page_support_render()
+    {
+        require_once(THEMOMENT_PLUGIN_DIR . 'themoment_page_support.php');
     }
 
 
