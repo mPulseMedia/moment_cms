@@ -95,15 +95,15 @@ class Themoment
         );
         add_submenu_page(
             'themoment_page_history_slug',
-            __('My Highlights', 'textdomain'),
-            __('My Highlights', 'textdomain'),
+            __(' ▸ My Moments', 'textdomain'),
+            __(' ▸ My Moments', 'textdomain'),
             'manage_options',
             'themoment_page_history_slug',
         );
         add_submenu_page(
             'themoment_page_history_slug',
-            __('Support', 'textdomain'),
-            __('Support', 'textdomain'),
+            __(' ▸ Support', 'textdomain'),
+            __(' ▸ Support', 'textdomain'),
             'manage_options',
             'themoment_page_support_slug',
             array($this, 'themoment_page_support_render'),
