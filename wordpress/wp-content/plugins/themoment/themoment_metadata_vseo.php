@@ -1,6 +1,6 @@
 <?php
 if (is_singular()) {
-    function metadata_veso_populate()
+    function metadata_vseo_populate()
     {
         $post_id = get_queried_object_id();
         $post_url = get_permalink($post_id);
@@ -60,7 +60,7 @@ if (is_singular()) {
     {
         return $url . (strpos($url, '?') > 0 ? '&' : '?') . http_build_query($params) . (strlen($hash) > 0 ? ('#' . $hash) : '');
     }
-    metadata_veso_populate();
+    metadata_vseo_populate();
 }
 ?>
 <style type="text/css">
