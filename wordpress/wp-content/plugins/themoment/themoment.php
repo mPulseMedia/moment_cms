@@ -151,13 +151,13 @@ class Themoment
         if (is_singular()) {
             $wordpress_object = array(
                 'post_id' => get_the_ID(),
-                'post_url' => get_permalink()
+                'post_url' => get_permalink(),
+                'playlist_data' => get_post_meta(get_the_ID(), 'playlist_data')
             );
             if ($this->is_bakery() || $this->is_elementor()) {
                 $wordpress_object = array_merge($wordpress_object, array(
                     'ajaxurl' => admin_url('admin-ajax.php'),
-                    'is_admin' => 'yes',
-                    'playlist_data' => get_post_meta(get_the_ID(), 'playlist_data')
+                    'is_admin' => 'yes'
                 ));
             }
             wp_localize_script('themoment_script', 'Wordpress_Object', $wordpress_object);
